@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Articles</string>
+
+    <string name="tab_name_shares">Shares</string>
+    <string name="tab_name_emails">Emails</string>
+    <string name="tab_name_views">Views</string>
+    <string name="tab_name_favorites">Favorites</string>
+
+    <string name="title_activity_detail">DetailActivity</string>
+
+
+    <string name="permission_storage_success">права получены</string>
+    <string name="permission_storage_failure">права не получены</string>
+
+    <string name="message_web_archive_deleted">Web archive was deleted</string>
+    <string name="message_empty_view">No data</string>
+
+
+
+
+</resources>
