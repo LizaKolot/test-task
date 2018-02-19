@@ -5,17 +5,18 @@
     <string name="tab_name_emails">Emails</string>
     <string name="tab_name_views">Views</string>
     <string name="tab_name_favorites">Favorites</string>
-
     <string name="title_activity_detail">DetailActivity</string>
 
 
-    <string name="permission_storage_success">права получены</string>
-    <string name="permission_storage_failure">права не получены</string>
+    <string name="permission_storage_success">Rights received</string>
+    <string name="permission_storage_failure">Rights not received</string>
+    <string name="permission_message">To save an article, you must grant the rights to write to the memory card</string>
+
+    <string name="button_positive_message">Yes</string>
 
     <string name="message_web_archive_deleted">Web archive was deleted</string>
+    <string name="message_web_impossible_save">Unable to save article</string>
+    <string name="message_web_error">There was an error</string>
     <string name="message_empty_view">No data</string>
-
-
-
 
 </resources>

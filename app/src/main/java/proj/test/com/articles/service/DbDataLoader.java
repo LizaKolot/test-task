@@ -6,7 +6,7 @@ import proj.test.com.articles.model.Article;
 import proj.test.com.articles.storage.database.DataBaseAdapter;
 
 
-public class DbDataLoader extends DataLoader {
+public class DbDataLoader implements DataLoader {
     private final DataBaseAdapter dbAdapter;
 
     public DbDataLoader(DataBaseAdapter dbAdapter) {

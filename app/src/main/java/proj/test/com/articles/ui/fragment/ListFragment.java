@@ -18,15 +18,14 @@ import android.widget.TextView;
 import java.util.Collections;
 import java.util.List;
 
-import proj.test.com.articles.presenter.BaseListContainerPresenter;
-import proj.test.com.articles.view.ListContainerView;
-import proj.test.com.articles.presenter.PresenterManager;
 import proj.test.com.articles.R;
 import proj.test.com.articles.model.Article;
+import proj.test.com.articles.presenter.BaseListContainerPresenter;
+import proj.test.com.articles.presenter.PresenterManager;
 import proj.test.com.articles.ui.activity.DetailActivity;
 import proj.test.com.articles.ui.adapter.ArticleAdapter;
+import proj.test.com.articles.view.ListContainerView;
 
-import static android.R.attr.type;
 
 public class ListFragment extends Fragment implements ListContainerView {
 
@@ -40,19 +39,15 @@ public class ListFragment extends Fragment implements ListContainerView {
     private ArticleAdapter adapter;
 
 
-    public static ListFragment newInstance(String type) {
+    public static ListFragment newInstance(PresenterManager.TypePresenter type) {
         ListFragment fragment = new ListFragment();
         return fragment;
     }
 
-    public void setPresenter(BaseListContainerPresenter presenter) {
-        this.presenter = presenter;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = PresenterManager.getInstance().getPresenter(type, this);
     }
 
     private String getSection() {
@@ -115,20 +110,22 @@ public class ListFragment extends Fragment implements ListContainerView {
             }
         });
         recyclerView.setAdapter(adapter);
-        presenter.showContent(type, getSection());
+        if (presenter != null) {
+            presenter.showContent(getSection());
+        }
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        presenter.attachView(this);
+        if (presenter!= null)presenter.attachView(this); //????
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.detachView();
+        if (presenter!= null) presenter.detachView();
     }
 
     @Override
@@ -147,7 +144,7 @@ public class ListFragment extends Fragment implements ListContainerView {
     AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            presenter.onChooseSection(spinner.getSelectedItem().toString());
+            if (presenter!= null) presenter.onChooseSection(spinner.getSelectedItem().toString());
         }
 
         @Override
@@ -161,12 +158,19 @@ public class ListFragment extends Fragment implements ListContainerView {
         spinner.setVisibility(View.GONE);
     }
 
+    @Override
+    public void setPresenter(BaseListContainerPresenter presenter) {
+        this.presenter = presenter;
+    }
+
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
+        if (isVisibleToUser && presenter!= null) {
             presenter.onFragmentVisibleUser();
         }
     }
+
+
 }

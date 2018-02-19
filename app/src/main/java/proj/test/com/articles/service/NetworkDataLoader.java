@@ -15,7 +15,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class NetworkDataLoader extends DataLoader {
+public class NetworkDataLoader implements DataLoader {
     private static final String PERIOD = "30";
 
     private final ArticlesType type;

@@ -1,24 +1,20 @@
 package proj.test.com.articles.ui.activity;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-
-
-
-
 
 import java.util.ArrayList;
 import java.util.List;
 
 import proj.test.com.articles.R;
-import proj.test.com.articles.service.DataLoader;
-import proj.test.com.articles.ui.fragment.ListFragment;
+import proj.test.com.articles.presenter.FragmentsFactory;
+import proj.test.com.articles.presenter.PresenterManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        setupViewPager(viewPager); // проверить если Bundle null
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -42,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(ListFragment.newInstance(DataLoader.TYPE_ARTICLE_MOSTSHARED), getString(R.string.tab_name_shares));
-        adapter.addFragment(ListFragment.newInstance(DataLoader.TYPE_ARTICLE_MOSTEMAILED), getString(R.string.tab_name_emails));
-        adapter.addFragment(ListFragment.newInstance(DataLoader.TYPE_ARTICLE_MOSTVIEWED), getString(R.string.tab_name_views));
-        adapter.addFragment(ListFragment.newInstance(DataLoader.TYPE_ARTICLE_FAVORITES), getString(R.string.tab_name_favorites));
+        adapter.addFragment(FragmentsFactory.createFragment(PresenterManager.TypePresenter.MOSTSHARED_PRESENTER), getString(R.string.tab_name_shares));
+        adapter.addFragment(FragmentsFactory.createFragment(PresenterManager.TypePresenter.MOSTEMAILED_PRESENTER), getString(R.string.tab_name_emails));
+        adapter.addFragment(FragmentsFactory.createFragment(PresenterManager.TypePresenter.MOSTVIEWED_PRESENTER), getString(R.string.tab_name_views));
+        adapter.addFragment(FragmentsFactory.createFragment(PresenterManager.TypePresenter.FAVORITES_PRESENTER), getString(R.string.tab_name_favorites));
         viewPager.setAdapter(adapter);
     }
 

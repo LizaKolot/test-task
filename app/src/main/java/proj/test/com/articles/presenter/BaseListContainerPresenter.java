@@ -25,8 +25,9 @@ public class BaseListContainerPresenter extends BasePresenter <ListContainerView
 
     private SettingsStorage settingsStorage;
 
-    public BaseListContainerPresenter(String name, ListContainerView view) {
-        super(name, view);
+    public BaseListContainerPresenter(ListContainerView view, DataLoader dataLoader) {
+        super(view);
+        this.dataLoader = dataLoader;
         settingsStorage = new SettingsStorage();
 
     }
@@ -83,7 +84,7 @@ public class BaseListContainerPresenter extends BasePresenter <ListContainerView
 
     private void loadData() {
         setProgressState();
-        Log.e("my test", " load data from data manager type = " + type + "    name presenter = " + getName());
+        Log.e("my test", " load data from data manager type = " + type + "    name presenter = " );
         dataLoader.getArticles(section, new DataLoader.OnDataListener() {
             @Override
             public void onSuccess(List<Article> result) {

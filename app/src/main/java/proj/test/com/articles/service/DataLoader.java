@@ -5,12 +5,6 @@ import java.util.List;
 
 import proj.test.com.articles.model.Article;
 
-enum ArticlesType {
-    TYPE_ARTICLE_MOSTEMAILED,
-    TYPE_ARTICLE_MOSTSHARED,
-    TYPE_ARTICLE_MOSTVIEWED
-}
-
 public interface DataLoader {
 
     void getArticles(String section, final OnDataListener listener);

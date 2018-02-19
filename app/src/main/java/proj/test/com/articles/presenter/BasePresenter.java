@@ -1,21 +1,21 @@
 package proj.test.com.articles.presenter;
 
-public class BasePresenter<T> {
+public class BasePresenter <T>{
 
-    private String name;
+   // private FragmentsFactory.TypePresenter type;
     private T view;
 
-    public BasePresenter(String name, T view) {
-        this.name = name;
-        this.view = view;
+    public BasePresenter(T view) {
+      //  this.type = type;
+        attachView(view);
     }
 
-    public String getName() {
-        return name;
-    }
+   // public FragmentsFactory.TypePresenter getType() {
+  //      return type;
+  //  }
 
     public T getView() {
-        return view;
+        return  view;
     }
 
     public void detachView() {
