@@ -1,6 +1,5 @@
-package proj.test.com.articles.storage.database;
+package proj.test.com.articles.storage;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 
 import static proj.test.com.articles.ArticleApplication.getContext;

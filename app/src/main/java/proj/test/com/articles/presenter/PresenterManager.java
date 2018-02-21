@@ -4,6 +4,7 @@ package proj.test.com.articles.presenter;
 import java.util.HashMap;
 import java.util.Map;
 
+import proj.test.com.articles.ArticleApplication;
 import proj.test.com.articles.api.NytimesAdapter;
 import proj.test.com.articles.api.NytimesApi;
 import proj.test.com.articles.model.Article;
@@ -14,22 +15,17 @@ import proj.test.com.articles.service.NetworkDataLoader;
 import proj.test.com.articles.storage.database.DataBaseAdapter;
 import proj.test.com.articles.view.DetailView;
 import proj.test.com.articles.view.ListContainerView;
-import proj.test.com.articles.view.PresenterView;
-
-import static android.R.attr.name;
 
 
 public class PresenterManager {
     public enum TypePresenter {MOSTVIEWED_PRESENTER, MOSTSHARED_PRESENTER, MOSTEMAILED_PRESENTER, FAVORITES_PRESENTER, DETAIL_PRESENTER}
 
-    private Map<String, BaseListContainerPresenter> listPresenters;
-    private Map<String, DetailPresenter> detailPresenters;
+    private Map<TypePresenter, BasePresenter> presenters;
 
     private static final PresenterManager instance = new PresenterManager();
 
     private PresenterManager() {
-        listPresenters = new HashMap<>();
-        detailPresenters = new HashMap<>();
+        presenters = new HashMap<>();
     }
 
     public static PresenterManager getInstance() {
@@ -37,34 +33,36 @@ public class PresenterManager {
     }
 
     public void attachPresenter(ListContainerView view, TypePresenter typePresenter) {
-        BaseListContainerPresenter presenter = listPresenters.get(typePresenter);
+        BaseListContainerPresenter presenter = (BaseListContainerPresenter) presenters.get(typePresenter);
         if (presenter == null) {
             switch (typePresenter) {
                 case MOSTEMAILED_PRESENTER:
                 case MOSTSHARED_PRESENTER:
                 case MOSTVIEWED_PRESENTER: {
                     presenter = createBaseListContainerPresenter(view, typePresenter);
+                    break;
                 }
-                break;
                 case FAVORITES_PRESENTER: {
                     presenter = createFavoritePresenter(view);
                     break;
                 }
             }
+            presenters.put(typePresenter, presenter);
         }
         view.setPresenter(presenter);
     }
 
     public void attachPresenter(DetailView view, TypePresenter typePresenter, Article article) {
-        DetailPresenter presenter = detailPresenters.get(typePresenter);
+        DetailPresenter presenter = (DetailPresenter) presenters.get(typePresenter);
         if (presenter == null) {
-           presenter= createDetailPresenter(view, article);
+            presenter = createDetailPresenter(view, article);
+            presenters.put(typePresenter, presenter);
         }
         view.setPresenter(presenter);
     }
 
     private DetailPresenter createDetailPresenter(DetailView view, Article article) {
-        DataBaseAdapter dbAdapter = new DataBaseAdapter(view.getContext());
+        DataBaseAdapter dbAdapter = new DataBaseAdapter(ArticleApplication.getContext());
         return new DetailPresenter(view, dbAdapter, article);
     }
 
@@ -87,7 +85,7 @@ public class PresenterManager {
     }
 
     private FavoritesPresenter createFavoritePresenter(ListContainerView view) {
-        DataBaseAdapter dbAdapter = new DataBaseAdapter(view.getContext());
+        DataBaseAdapter dbAdapter = new DataBaseAdapter(ArticleApplication.getContext()); //???
         DataLoader dataLoader = new DbDataLoader(dbAdapter);
         return new FavoritesPresenter(view, dataLoader);
     }
@@ -96,7 +94,5 @@ public class PresenterManager {
     public void deletePresenter(String name) {
         presenters.remove(name);
     }
-    public void deletePresenter(String name) {
-        presenters.remove(name);
-    }
+
 }

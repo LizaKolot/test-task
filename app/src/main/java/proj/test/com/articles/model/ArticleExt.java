@@ -16,9 +16,7 @@ public class ArticleExt extends Article{
     @SerializedName("column")
     @Expose
     private Object column;
-    @SerializedName("section")
-    @Expose
-    private String section;
+
     @SerializedName("byline")
     @Expose
     private String byline;
@@ -76,13 +74,7 @@ public class ArticleExt extends Article{
         this.column = column;
     }
 
-    public String getSection() {
-        return section;
-    }
 
-    public void setSection(String section) {
-        this.section = section;
-    }
 
     public String getByline() {
         return byline;

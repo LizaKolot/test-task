@@ -23,14 +23,18 @@ public class Article implements Parcelable{
     @SerializedName("source")
     @Expose
     private String source;
+    @SerializedName("section")
+    @Expose
+    private String section;
 
 
-    public Article(long id, String title, String path, String publishedDate, String source) {
+    public Article(long id, String title, String path, String publishedDate, String source, String section) {
         this.id = id;
         this.title = title;
         this.path = path;
         this.publishedDate = publishedDate;
         this.source = source;
+        this.section = section;
     }
 
     public Article(){}
@@ -54,6 +58,13 @@ public class Article implements Parcelable{
 
     public void setTitle(String title) {
         this.title = title;
+    }
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 
 
@@ -85,6 +96,7 @@ public class Article implements Parcelable{
         parcel.writeString(path);
         parcel.writeString(publishedDate);
         parcel.writeString(source);
+        parcel.writeString(section);
     }
 
     public static final Parcelable.Creator<Article> CREATOR = new Parcelable.Creator<Article>() {
@@ -105,6 +117,7 @@ public class Article implements Parcelable{
         path = parcel.readString();
         publishedDate = parcel.readString();
         source = parcel.readString();
+        section = parcel.readString();
     }
 
 }

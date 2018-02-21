@@ -16,6 +16,7 @@ import proj.test.com.articles.model.Article;
 import static android.provider.BaseColumns._ID;
 import static proj.test.com.articles.storage.database.DbContract.ArticleEntry.COLUMN_NAME_DATE;
 import static proj.test.com.articles.storage.database.DbContract.ArticleEntry.COLUMN_NAME_PATH;
+import static proj.test.com.articles.storage.database.DbContract.ArticleEntry.COLUMN_NAME_SECTION;
 import static proj.test.com.articles.storage.database.DbContract.ArticleEntry.COLUMN_NAME_SOURCE;
 import static proj.test.com.articles.storage.database.DbContract.ArticleEntry.COLUMN_NAME_TITLE;
 import static proj.test.com.articles.storage.database.DbContract.ArticleEntry.TABLE_NAME;
@@ -37,6 +38,7 @@ public class DataBaseAdapter {
         values.put(COLUMN_NAME_PATH, article.getPath());
         values.put(COLUMN_NAME_DATE, article.getPublishedDate());
         values.put(COLUMN_NAME_SOURCE, article.getSource());
+        values.put(COLUMN_NAME_SECTION, article.getSection());
 
         long id = db.insert(TABLE_NAME,
                 null,
@@ -75,7 +77,7 @@ public class DataBaseAdapter {
 
     public Article getArticle(long id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String[] columns = {_ID, COLUMN_NAME_TITLE, COLUMN_NAME_PATH, COLUMN_NAME_DATE, COLUMN_NAME_SOURCE};
+        String[] columns = {_ID, COLUMN_NAME_TITLE, COLUMN_NAME_PATH, COLUMN_NAME_DATE, COLUMN_NAME_SOURCE, COLUMN_NAME_SECTION};
 
         Cursor cursor =
                 db.query(TABLE_NAME,
@@ -95,20 +97,31 @@ public class DataBaseAdapter {
                 cursor.getString(1),
                 cursor.getString(2),
                 cursor.getString(3),
-                cursor.getString(4));
+                cursor.getString(4),
+                cursor.getString(5));
 
         Log.e("getArticle(" + id + ")", article.getPath());
         //  db.close();
         return article;
     }
 
+    public List<Article> getAllArticlesBySection(String section) {
+        if (section.equals("all-sections")){
+            return getAllArticles();
+        }
+        String query = "SELECT  * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_SECTION + " == '" + section + "'";
+        return getArticles(query);
+    }
 
     public List<Article> getAllArticles() {
-        List<Article> articles = new ArrayList();
-
         String query = "SELECT  * FROM " + TABLE_NAME;
+        return getArticles(query);
 
+    }
+
+    private List<Article> getArticles(String query) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+        List<Article> articles = new ArrayList();
         Cursor cursor = db.rawQuery(query, null);
 
         Article article;
@@ -119,7 +132,8 @@ public class DataBaseAdapter {
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getString(3),
-                        cursor.getString(4));
+                        cursor.getString(4),
+                        cursor.getString(5));
                 Log.e("my test", " article = " + article.getId() + "  " + article.getTitle() + "  " + article.getPath());
                 articles.add(article);
             } while (cursor.moveToNext());
@@ -140,6 +154,7 @@ public class DataBaseAdapter {
         values.put(COLUMN_NAME_PATH, article.getPath());
         values.put(COLUMN_NAME_DATE, article.getPublishedDate());
         values.put(COLUMN_NAME_SOURCE, article.getSource());
+        values.put(COLUMN_NAME_SECTION, article.getSection());
 
         int result = db.update(TABLE_NAME,
                 values,

@@ -17,8 +17,4 @@ public class FavoritesPresenter extends BaseListContainerPresenter {
         });
     }
 
-    @Override
-    public void onFragmentVisibleUser() {
-        getView().hideFilterSection();
-    }
 }

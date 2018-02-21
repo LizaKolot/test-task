@@ -15,7 +15,7 @@ public class DbDataLoader implements DataLoader {
 
     @Override
     public void getArticles(String section, OnDataListener listener) {
-        List<Article> articles = dbAdapter.getAllArticles();
+        List<Article> articles = dbAdapter.getAllArticlesBySection(section);
         listener.onSuccess(articles);
     }
 }

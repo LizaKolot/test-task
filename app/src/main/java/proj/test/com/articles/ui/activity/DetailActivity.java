@@ -14,7 +14,6 @@ import android.view.View;
 
 import proj.test.com.articles.R;
 import proj.test.com.articles.model.Article;
-import proj.test.com.articles.presenter.FragmentsFactory;
 import proj.test.com.articles.presenter.PresenterManager;
 import proj.test.com.articles.ui.fragment.DetailFragment;
 
@@ -53,9 +52,11 @@ public class DetailActivity extends AppCompatActivity {
 
         if (fragment == null) {
             Article article = getIntent().getExtras().getParcelable(ARG_ARTICLE);
-            fragment = FragmentsFactory.createDetailFragment(PresenterManager.TypePresenter.DETAIL_PRESENTER, article);
-            fm.beginTransaction().add(fragment, NAME_FRAGMENT).commit();
+            DetailFragment fragment = DetailFragment.newInstance();
+            PresenterManager.getInstance().attachPresenter(fragment, PresenterManager.TypePresenter.DETAIL_PRESENTER, article);
+            fm.beginTransaction().replace(R.id.fragment, fragment, NAME_FRAGMENT).commit();
         }
+
     }
 
     @Override

@@ -24,6 +24,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import proj.test.com.articles.ArticleApplication;
 import proj.test.com.articles.R;
 import proj.test.com.articles.presenter.DetailPresenter;
 import proj.test.com.articles.presenter.DetailPresenter.ErrorPresenter;
@@ -38,11 +39,13 @@ public class DetailFragment extends Fragment implements DetailView {
 
     public static DetailFragment newInstance() {
         DetailFragment fragment = new DetailFragment();
+
         // Bundle args = new Bundle();
         //args.putParcelable(ARG_ARTICLE, article);
         //fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,9 +58,17 @@ public class DetailFragment extends Fragment implements DetailView {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.clickFavoriteButton();
+            }
+        });
         webView = (WebView) view.findViewById(R.id.webView);
         webView.getSettings().setDomStorageEnabled(true);//нужно ли
         webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK); //нужно ли
+
 
         presenter.loadData();
         webView.setWebChromeClient(new WebChromeClient() {
@@ -89,13 +100,7 @@ public class DetailFragment extends Fragment implements DetailView {
                 super.onPageFinished(view, url);
             }
         });
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.clickFavoriteButton();
-            }
-        });
+
         return view;
     }
 
@@ -203,7 +208,7 @@ public class DetailFragment extends Fragment implements DetailView {
         if (exist) {
             idDrawable = android.R.drawable.btn_star_big_on;
         }
-        fab.setImageDrawable(ContextCompat.getDrawable(getContext(), idDrawable));
+        fab.setImageDrawable(ContextCompat.getDrawable(ArticleApplication.getContext(), idDrawable));
     }
 
 }

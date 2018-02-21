@@ -19,7 +19,7 @@ public class NetworkDataLoader implements DataLoader {
     private static final String PERIOD = "30";
 
     private final ArticlesType type;
-    private final NytimesApi api;// = NytimesAdapter.getInstance().getApi();
+    private final NytimesApi api;
 
     public NetworkDataLoader(ArticlesType type, NytimesApi api) {
         this.type = type;
@@ -28,16 +28,18 @@ public class NetworkDataLoader implements DataLoader {
 
     @Override
     public void getArticles(String section, final OnDataListener listener) {
-        api.getArticles(type.toString(), section, PERIOD).enqueue(new Callback<ResponseAllArticle>() {
+        api.getArticles(type.getName(), section, PERIOD).enqueue(new Callback<ResponseAllArticle>() {
 
             @Override
             public void onResponse(Call<ResponseAllArticle> call, Response<ResponseAllArticle> response) {
-                List<ArticleExt> result = response.body().getArticleList();
                 List<Article> list = new ArrayList<>();
-                Log.e("my test", " get article type=" + type + "  " + response.raw());
-                for (ArticleExt art : result) {
-                    art.setSource(art.getSource() + "  " + type);
-                    list.add(art);
+                if (response.body() != null) {
+                    List<ArticleExt> result = response.body().getArticleList();
+                    Log.e("my test", " get article type=" + type + "  " + response.raw());
+                    for (ArticleExt art : result) {
+                        art.setSource(art.getSource() + "  " + type + "  " + art.getSection());
+                        list.add(art);
+                    }
                 }
 
                 listener.onSuccess(list);

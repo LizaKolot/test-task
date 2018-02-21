@@ -69,6 +69,7 @@ public class DetailPresenter extends BasePresenter<DetailView> {
         }
         if (resultSaving) {
             existInStorage = true;
+            getView().showFavoriteButton(existInStorage);
         } else {
             getView().showError(ErrorPresenter.IMPOSSIBLE_SAVE);
         }

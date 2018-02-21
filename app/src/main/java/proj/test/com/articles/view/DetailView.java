@@ -1,13 +1,9 @@
 package proj.test.com.articles.view;
 
 
-import android.content.Context;
-
 import proj.test.com.articles.presenter.DetailPresenter;
 
-public interface DetailView  {
-    void setPresenter(DetailPresenter presenter);
-    Context getContext();
+public interface DetailView extends BaseView<DetailPresenter> {
     void showArticle(String url);
     void showError(DetailPresenter.ErrorPresenter error);
     void hideError();

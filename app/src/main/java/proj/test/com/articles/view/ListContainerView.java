@@ -1,14 +1,12 @@
 package proj.test.com.articles.view;
 
 
-import android.content.Context;
-
 import java.util.List;
 
 import proj.test.com.articles.model.Article;
 import proj.test.com.articles.presenter.BaseListContainerPresenter;
 
-public interface ListContainerView  {
+public interface ListContainerView extends BaseView<BaseListContainerPresenter> {
     void showProgress();
     void hideProgress();
     void showMessage(String message);
@@ -16,9 +14,4 @@ public interface ListContainerView  {
     void showList(List<Article> list);
     void showEmptyList();
     void showDetailArticle(Article article);
-    void showFilterSection(String section);
-    void hideFilterSection();
-    void setPresenter(BaseListContainerPresenter presenter);
-    Context getContext();
-
 }

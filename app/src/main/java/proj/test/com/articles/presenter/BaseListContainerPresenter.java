@@ -5,17 +5,14 @@ import android.util.Log;
 
 import java.util.List;
 
-import proj.test.com.articles.view.ListContainerView;
 import proj.test.com.articles.model.Article;
 import proj.test.com.articles.service.DataLoader;
-import proj.test.com.articles.storage.database.SettingsStorage;
+import proj.test.com.articles.view.ListContainerView;
 
 import static android.R.attr.type;
 
 
-public class BaseListContainerPresenter extends BasePresenter <ListContainerView>{
-
-
+public class BaseListContainerPresenter extends BasePresenter<ListContainerView> {
     private DataLoader dataLoader;
     private String section;
 
@@ -23,13 +20,10 @@ public class BaseListContainerPresenter extends BasePresenter <ListContainerView
     private List<Article> list;
     private String error;
 
-    private SettingsStorage settingsStorage;
 
     public BaseListContainerPresenter(ListContainerView view, DataLoader dataLoader) {
         super(view);
         this.dataLoader = dataLoader;
-        settingsStorage = new SettingsStorage();
-
     }
 
     public void chooseArticle(Article article) {
@@ -41,10 +35,9 @@ public class BaseListContainerPresenter extends BasePresenter <ListContainerView
     public void showContent(String section) {
         this.section = section;
         getContent();
-
     }
 
-    private void getContent() // как именовать
+    public void getContent()
     {
         if (list == null && !isProgress) {
             loadData();
@@ -57,6 +50,7 @@ public class BaseListContainerPresenter extends BasePresenter <ListContainerView
         if (getView() == null) {
             return;
         }
+
 
         if (isProgress) {
             getView().showProgress();
@@ -75,6 +69,7 @@ public class BaseListContainerPresenter extends BasePresenter <ListContainerView
     }
 
 
+
     private void setProgressState() {
         isProgress = true;
         error = null;
@@ -84,7 +79,7 @@ public class BaseListContainerPresenter extends BasePresenter <ListContainerView
 
     private void loadData() {
         setProgressState();
-        Log.e("my test", " load data from data manager type = " + type + "    name presenter = " );
+        Log.e("my test", " load data from data manager type = " + type + "    name presenter = ");
         dataLoader.getArticles(section, new DataLoader.OnDataListener() {
             @Override
             public void onSuccess(List<Article> result) {
@@ -110,18 +105,17 @@ public class BaseListContainerPresenter extends BasePresenter <ListContainerView
     }
 
     public void onChooseSection(String section) {
-        settingsStorage.saveSection(section);
+        resetData();
+        showContent(section);
     }
 
-    public void onFragmentVisibleUser() {
-        String newSection = settingsStorage.getSection();
-        getView().showFilterSection(newSection);
-        if(!section.equals(newSection)){
+    public void onFragmentVisibleUser(String newSection) {
+        if (section != null && !section.equals(newSection)) {
+            Log.e("my test", " resetData " + getView());
             resetData();
-            section = newSection;
-            loadData();
-
         }
+        Log.e("my test", " show content in fragment visibility ");
+        showContent(newSection);
     }
 
 }

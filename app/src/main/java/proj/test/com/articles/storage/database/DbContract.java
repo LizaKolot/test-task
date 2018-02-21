@@ -17,6 +17,7 @@ final public class DbContract {
         public static final String COLUMN_NAME_PATH = "path";
         public static final String COLUMN_NAME_DATE = "date";
         public static final String COLUMN_NAME_SOURCE = "source";
+        public static final String COLUMN_NAME_SECTION = "section";
 
         public static final String CREATE_TABLE = "CREATE TABLE " +
                 TABLE_NAME + " (" +
@@ -24,7 +25,8 @@ final public class DbContract {
                 COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
                 COLUMN_NAME_PATH + TEXT_TYPE + COMMA_SEP +
                 COLUMN_NAME_DATE + TEXT_TYPE + COMMA_SEP +
-                COLUMN_NAME_SOURCE + TEXT_TYPE + " )";
+                COLUMN_NAME_SOURCE + TEXT_TYPE +COMMA_SEP +
+                COLUMN_NAME_SECTION + TEXT_TYPE  + " )";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
