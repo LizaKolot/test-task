@@ -33,6 +33,7 @@ public class NetworkDataLoader implements DataLoader {
             @Override
             public void onResponse(Call<ResponseAllArticle> call, Response<ResponseAllArticle> response) {
                 List<Article> list = new ArrayList<>();
+                Log.e("my test", " on response newtwork dataloader");
                 if (response.body() != null) {
                     List<ArticleExt> result = response.body().getArticleList();
                     Log.e("my test", " get article type=" + type + "  " + response.raw());

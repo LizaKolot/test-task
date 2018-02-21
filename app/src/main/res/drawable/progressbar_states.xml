@@ -4,13 +4,13 @@
     >
     <item android1:id="@android:id/background">
         <shape android1:shape="line">
-            <stroke android1:width="2dp" android1:color="#bebebe"/>
+            <stroke android1:width="2dp" android1:color="@color/primary_light"/>
         </shape>
     </item>
     <item android1:id="@android:id/progress">
         <clip android1:clipOrientation="horizontal" android1:gravity="left">
             <shape android1:shape="line">
-                <stroke android1:width="2dp" android1:color="#248e49"/>
+                <stroke android1:width="2dp" android1:color="@color/accent"/>
             </shape>
         </clip>
     </item>

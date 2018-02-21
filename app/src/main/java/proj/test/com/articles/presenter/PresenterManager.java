@@ -91,8 +91,8 @@ public class PresenterManager {
     }
 
 
-    public void deletePresenter(String name) {
-        presenters.remove(name);
+    public void deletePresenter(TypePresenter typePresenter) {
+        presenters.remove(typePresenter);
     }
 
 }

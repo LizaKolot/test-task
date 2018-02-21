@@ -72,6 +72,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
+        PresenterManager.getInstance().deletePresenter(PresenterManager.TypePresenter.DETAIL_PRESENTER);
         Log.e("my test",  "finish detail activity");
     }
 }

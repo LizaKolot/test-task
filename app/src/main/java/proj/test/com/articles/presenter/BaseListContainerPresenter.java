@@ -85,13 +85,14 @@ public class BaseListContainerPresenter extends BasePresenter<ListContainerView>
             public void onSuccess(List<Article> result) {
                 isProgress = false;
                 list = result;
+                error = null;
                 updateView();
             }
 
             @Override
             public void onFail(String message) {
                 isProgress = false;
-                BaseListContainerPresenter.this.error = message;
+                error = message;
                 list = null;
                 updateView();
             }

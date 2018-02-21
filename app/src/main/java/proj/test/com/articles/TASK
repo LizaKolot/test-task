@@ -34,3 +34,6 @@
 33. presenter or presenter in package name
 34.прочитать https://developer.android.com/guide/topics/resources/runtime-changes.html?hl=ru
 35.проверить setRetainInstance(true);
+36.переместить классы по пакетам
+37.прочитать доступ к базе даных по сингллтону иои нет
+38.надо ли оптимизация базы данных
