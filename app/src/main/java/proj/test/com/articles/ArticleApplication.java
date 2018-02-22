@@ -3,11 +3,9 @@ package proj.test.com.articles;
 import android.app.Application;
 import android.content.Context;
 
-public class ArticleApplication  extends Application {
+public class ArticleApplication extends Application {
 
     private static Application application;
-
-
 
     public static Application getApplication() {
         return application;

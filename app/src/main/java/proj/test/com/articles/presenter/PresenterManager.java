@@ -85,7 +85,7 @@ public class PresenterManager {
     }
 
     private FavoritesPresenter createFavoritePresenter(ListContainerView view) {
-        DataBaseAdapter dbAdapter = new DataBaseAdapter(ArticleApplication.getContext()); //???
+        DataBaseAdapter dbAdapter = new DataBaseAdapter(ArticleApplication.getContext());
         DataLoader dataLoader = new DbDataLoader(dbAdapter);
         return new FavoritesPresenter(view, dataLoader);
     }

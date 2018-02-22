@@ -12,8 +12,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NytimesAdapter {
     private static final String API_KEY = "65fdacee91bc450fb4bd40cd461d8f24";
+    private static final String BASE_URL = "http://api.nytimes.com/svc/mostpopular/v2/";
 
-    private static NytimesAdapter instance;
+    private static NytimesAdapter instance = new NytimesAdapter();
 
     private NytimesApi nytimesApi;
 
@@ -22,7 +23,7 @@ public class NytimesAdapter {
         httpClient.addNetworkInterceptor(new AddHeaderInterceptor());
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.nytimes.com/svc/mostpopular/v2/")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();
@@ -30,9 +31,6 @@ public class NytimesAdapter {
     }
 
     public static NytimesAdapter getInstance() {
-        if (instance == null) {
-            instance = new NytimesAdapter();
-        }
         return instance;
     }
 
@@ -43,10 +41,8 @@ public class NytimesAdapter {
     private class AddHeaderInterceptor implements Interceptor {
         @Override
         public Response intercept(Chain chain) throws IOException {
-
             Request.Builder builder = chain.request().newBuilder();
             builder.addHeader("api-key", API_KEY);
-
             return chain.proceed(builder.build());
         }
     }

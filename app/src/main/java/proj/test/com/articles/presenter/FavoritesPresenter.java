@@ -5,16 +5,22 @@ import proj.test.com.articles.view.ListContainerView;
 import proj.test.com.articles.storage.database.DataBaseObserver;
 
 
-
 public class FavoritesPresenter extends BaseListContainerPresenter {
-    public FavoritesPresenter(ListContainerView view,  DataLoader dataLoader) {
+    private DataBaseObserver.DataBaseChangeListener listener = new DataBaseObserver.DataBaseChangeListener() {
+        @Override
+        public void onChange() {
+            resetData();
+        }
+    };
+
+    public FavoritesPresenter(ListContainerView view, DataLoader dataLoader) {
         super(view, dataLoader);
-        DataBaseObserver.getInstance().addDataBaseChangeListener(new DataBaseObserver.DataBaseChangeListener() {
-            @Override
-            public void onChange() {
-                resetData();
-            }
-        });
+        DataBaseObserver.getInstance().addDataBaseChangeListener(listener);
     }
 
+    @Override
+    public void beforeRemove() {
+        super.beforeRemove();
+        DataBaseObserver.getInstance().removeDataBaseChangeListener(listener);
+    }
 }

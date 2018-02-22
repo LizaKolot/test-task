@@ -7,12 +7,9 @@ import java.util.List;
 public class DataBaseObserver {
     private List<DataBaseChangeListener> listeners;
 
-    private static DataBaseObserver instance;
+    private static DataBaseObserver instance = new DataBaseObserver();
 
     public static DataBaseObserver getInstance() {
-        if (instance == null) {
-            instance = new DataBaseObserver();
-        }
         return instance;
     }
 

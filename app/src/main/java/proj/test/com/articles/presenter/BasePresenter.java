@@ -1,21 +1,14 @@
 package proj.test.com.articles.presenter;
 
-public class BasePresenter <T>{
-
-   // private FragmentsFactory.TypePresenter type;
+public abstract class BasePresenter<T> {
     private T view;
 
     public BasePresenter(T view) {
-      //  this.type = type;
         attachView(view);
     }
 
-   // public FragmentsFactory.TypePresenter getType() {
-  //      return type;
-  //  }
-
     public T getView() {
-        return  view;
+        return view;
     }
 
     public void detachView() {
@@ -25,4 +18,6 @@ public class BasePresenter <T>{
     public void attachView(T view) {
         this.view = view;
     }
+
+    abstract public void beforeRemove();
 }

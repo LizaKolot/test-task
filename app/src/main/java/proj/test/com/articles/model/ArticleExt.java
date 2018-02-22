@@ -1,18 +1,16 @@
 
 package proj.test.com.articles.model;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 import proj.test.com.articles.model.utils.ArrayDeserializer;
 
-public class ArticleExt extends Article{
+public class ArticleExt extends Article {
 
-   /* @SerializedName("url")
-    @Expose
-    private String url;*/
     @SerializedName("column")
     @Expose
     private Object column;
@@ -20,21 +18,15 @@ public class ArticleExt extends Article{
     @SerializedName("byline")
     @Expose
     private String byline;
-    /*@SerializedName("title")
-    @Expose
-    private String title;*/
+
     @SerializedName("abstract")
     @Expose
     private String _abstract;
-   /* @SerializedName("published_date")
-    @Expose
-    private String publishedDate;
-    @SerializedName("source")
-    @Expose
-    private String source;*/
+
     @SerializedName("asset_id")
     @Expose
     private Long assetId;
+
     @SerializedName("total_shares")
     @Expose
     private Integer totalShares;
@@ -65,7 +57,6 @@ public class ArticleExt extends Article{
     private List<Medium> media = null;
 
 
-
     public Object getColumn() {
         return column;
     }
@@ -74,8 +65,6 @@ public class ArticleExt extends Article{
         this.column = column;
     }
 
-
-
     public String getByline() {
         return byline;
     }
@@ -83,6 +72,7 @@ public class ArticleExt extends Article{
     public void setByline(String byline) {
         this.byline = byline;
     }
+
     public String getAbstract() {
         return _abstract;
     }
@@ -90,8 +80,6 @@ public class ArticleExt extends Article{
     public void setAbstract(String _abstract) {
         this._abstract = _abstract;
     }
-
-
 
     public Long getAssetId() {
         return assetId;

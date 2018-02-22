@@ -2,7 +2,6 @@ package proj.test.com.articles.presenter;
 
 
 import android.os.Environment;
-import android.util.Log;
 
 import java.io.File;
 
@@ -12,6 +11,7 @@ import proj.test.com.articles.view.DetailView;
 
 public class DetailPresenter extends BasePresenter<DetailView> {
 
+    private static final String DIRECTORY_FOR_ARTICLES = "articles";
 
     public enum ErrorPresenter {FILE_WAS_DELETED, IMPOSSIBLE_SAVE}
 
@@ -55,11 +55,13 @@ public class DetailPresenter extends BasePresenter<DetailView> {
 
     public void saveDocument() {
         boolean resultSaving = true;
-        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "articles");
+
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), DIRECTORY_FOR_ARTICLES);
         if (!storageDir.exists()) {
             resultSaving = storageDir.mkdirs();
         }
         String fileName = storageDir.getAbsolutePath() + File.separator + getFileName() + ".mht";
+
         getView().saveWebArchive(fileName);
 
         article.setPath(fileName);
@@ -71,9 +73,9 @@ public class DetailPresenter extends BasePresenter<DetailView> {
             existInStorage = true;
             getView().showFavoriteButton(existInStorage);
         } else {
+            existInStorage = false;
             getView().showError(ErrorPresenter.IMPOSSIBLE_SAVE);
         }
-        Log.e("my tesr", " name =  " + fileName + "  id = " + res);
     }
 
     private void deleteArticle() {
@@ -89,5 +91,10 @@ public class DetailPresenter extends BasePresenter<DetailView> {
 
     private String getFileName() {
         return article.getTitle().replace(" ", "_");
+    }
+
+    @Override
+    public void beforeRemove() {
+
     }
 }

@@ -1,8 +1,6 @@
 package proj.test.com.articles.service;
 
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,16 +31,12 @@ public class NetworkDataLoader implements DataLoader {
             @Override
             public void onResponse(Call<ResponseAllArticle> call, Response<ResponseAllArticle> response) {
                 List<Article> list = new ArrayList<>();
-                Log.e("my test", " on response newtwork dataloader");
                 if (response.body() != null) {
                     List<ArticleExt> result = response.body().getArticleList();
-                    Log.e("my test", " get article type=" + type + "  " + response.raw());
                     for (ArticleExt art : result) {
-                        art.setSource(art.getSource() + "  " + type + "  " + art.getSection());
                         list.add(art);
                     }
                 }
-
                 listener.onSuccess(list);
             }
 

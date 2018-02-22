@@ -39,10 +39,6 @@ public class DetailFragment extends Fragment implements DetailView {
 
     public static DetailFragment newInstance() {
         DetailFragment fragment = new DetailFragment();
-
-        // Bundle args = new Bundle();
-        //args.putParcelable(ARG_ARTICLE, article);
-        //fragment.setArguments(args);
         return fragment;
     }
 
@@ -51,6 +47,12 @@ public class DetailFragment extends Fragment implements DetailView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        webView.saveState(outState);
     }
 
     @Override
@@ -66,11 +68,14 @@ public class DetailFragment extends Fragment implements DetailView {
             }
         });
         webView = (WebView) view.findViewById(R.id.webView);
-        webView.getSettings().setDomStorageEnabled(true);//нужно ли
-        webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK); //нужно ли
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
-
-        presenter.loadData();
+        if (savedInstanceState != null) {
+            webView.restoreState(savedInstanceState);
+        } else {
+            presenter.loadData();
+        }
         webView.setWebChromeClient(new WebChromeClient() {
                                        public void onProgressChanged(WebView view, int progress) {
                                            if (progress < 100 && progressBar.getVisibility() == ProgressBar.GONE) {

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Article implements Parcelable{
+public class Article implements Parcelable {
 
     private long id;
 
@@ -37,13 +37,13 @@ public class Article implements Parcelable{
         this.section = section;
     }
 
-    public Article(){}
+    public Article() {
+    }
 
 
     public long getId() {
         return id;
     }
-
 
     public String getPath() {
         return path;
@@ -52,6 +52,7 @@ public class Article implements Parcelable{
     public void setPath(String path) {
         this.path = path;
     }
+
     public String getTitle() {
         return title;
     }
@@ -59,6 +60,7 @@ public class Article implements Parcelable{
     public void setTitle(String title) {
         this.title = title;
     }
+
     public String getSection() {
         return section;
     }
@@ -66,8 +68,6 @@ public class Article implements Parcelable{
     public void setSection(String section) {
         this.section = section;
     }
-
-
 
     public String getPublishedDate() {
         return publishedDate;

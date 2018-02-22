@@ -1,13 +1,11 @@
 package proj.test.com.articles.ui.fragment;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +34,7 @@ public class ListFragment extends Fragment implements ListContainerView {
     private ProgressBar progressBar;
     private Spinner spinner;
 
-    static  int positionSelection = 0;
+    private static int positionSelection = 0;
     private boolean isContentShown = false;
 
     private ArticleAdapter adapter;
@@ -47,18 +45,10 @@ public class ListFragment extends Fragment implements ListContainerView {
     }
 
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.e("my test", " onCreate() " + getTag());
-
-    }
-
     private String getSection() {
         if (spinner == null) {
             spinner = (Spinner) getActivity().findViewById(R.id.section);
         }
-        Log.e("my test", spinner.getSelectedItem().toString());
         return spinner.getSelectedItem().toString();
     }
 
@@ -86,26 +76,11 @@ public class ListFragment extends Fragment implements ListContainerView {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.e("my test", " onStart() " + getTag());
-
-    }
-
-    @Override
     public void showList(List<Article> list) {
         errorView.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         adapter.setArticles(list);
         adapter.notifyDataSetChanged();
-        Log.e("my test", " show list");
     }
 
     @Override
@@ -118,30 +93,23 @@ public class ListFragment extends Fragment implements ListContainerView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.e("my test", " onCreateView() " + getTag());
         View view = inflater.inflate(R.layout.fragment_content, container, false);
-        //  spinner = (Spinner) getActivity().findViewById(R.id.section);
         errorView = (TextView) view.findViewById(R.id.error);
         recyclerView = (RecyclerView) view.findViewById(R.id.articles);
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ArticleAdapter(getContext(), Collections.<Article>emptyList());
-        adapter.setListener(new ArticleAdapter.OnArticleChooseListener() {
+        adapter = new ArticleAdapter(Collections.<Article>emptyList());
+        adapter.setListener(new ArticleAdapter.OnArticleSelectedListener() {
             @Override
-            public void onChoose(Article article) {
-                presenter.chooseArticle(article);
+            public void onSelected(Article article) {
+                presenter.selectedArticle(article);
             }
         });
         recyclerView.setAdapter(adapter);
-     /*   if (presenter != null) {
-            presenter.showContent(getSection());
-            Log.e("my test", " onStart() show content  " + getTag());
-        }*/
         if (presenter != null && !isContentShown) {
             presenter.showContent(getSection());
             setSectionView();
-            Log.e("my test", " onStart() show content  " + getTag());
         }
         return view;
     }
@@ -149,8 +117,7 @@ public class ListFragment extends Fragment implements ListContainerView {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("my test", " onResume() " + getTag());
-         if (presenter != null){ //presenter.attachView(this); //????s\
+        if (presenter != null) {
            presenter.showContent(getSection());}
 
 
@@ -159,7 +126,6 @@ public class ListFragment extends Fragment implements ListContainerView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("my test", " onDestroy() " + getTag());
         if (presenter != null) presenter.detachView();
     }
 
@@ -171,45 +137,23 @@ public class ListFragment extends Fragment implements ListContainerView {
 
 
     private void setSectionView() {
-        //    if (spinner != null && getUserVisibleHint()) {
         if (spinner == null) {
             spinner = (Spinner) getActivity().findViewById(R.id.section);
         }
-
         if (getUserVisibleHint()) {
-           // checkAmountClickSelection = 0;
             spinner.setOnItemSelectedListener(null);
             spinner.setSelection(positionSelection, false);
             spinner.setOnItemSelectedListener(listener);
-
-         //   spinner.setOnTouchListener(touchListener);
-            Log.e("my test", " spinner set listener " + this);
-
         }
-        //   }
     }
-   /* View.OnTouchListener touchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (presenter!=null){
-                    presenter.onChooseSection(spinner.getSelectedItem().toString());
-                }
-            }
-            return true;
-        }
-    };*/
-
 
 
     AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            Log.e("my test", " on item selected " + spinner.getItemAtPosition(position).toString() + "   " );
             if (presenter != null ) {
                 positionSelection = position;
                 presenter.onChooseSection(spinner.getItemAtPosition(position).toString());
-                Log.e("my test", " must get content on item selected " + spinner.getItemAtPosition(position).toString());
             }
         }
 
@@ -224,24 +168,12 @@ public class ListFragment extends Fragment implements ListContainerView {
     public void setPresenter(BaseListContainerPresenter presenter) {
         this.presenter = presenter;
         this.presenter.attachView(this);
-        Log.e("my test", " set presenter " + getTag());
-        //  this.presenter.showContent(getSection());
-      /*  if (this.presenter  != null && getActivity() != null) {
-            this.presenter.showContent(getSection());
-            Log.e("my test", " set presenter " + getTag() + " show content ");
-        }*/
     }
 
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        Log.e("my test", " set user visible hint " + isVisibleToUser + "  " + getTag()
-                + " isVisible()=" + isVisible() + "  isAdded() = " + isAdded() + "  isInLayout()=" + isInLayout());
-       /* if (isVisibleToUser && isVisible() && presenter != null) {
-            presenter.onFragmentVisibleUser(getSection());
-            setSectionView();
-        }*/
         if (isVisibleToUser) {
             if (getView() != null) {
                 setSectionView();
@@ -252,6 +184,4 @@ public class ListFragment extends Fragment implements ListContainerView {
             }
         }
     }
-
-
 }

@@ -1,15 +1,10 @@
 package proj.test.com.articles.presenter;
 
-
-import android.util.Log;
-
 import java.util.List;
 
 import proj.test.com.articles.model.Article;
 import proj.test.com.articles.service.DataLoader;
 import proj.test.com.articles.view.ListContainerView;
-
-import static android.R.attr.type;
 
 
 public class BaseListContainerPresenter extends BasePresenter<ListContainerView> {
@@ -26,7 +21,7 @@ public class BaseListContainerPresenter extends BasePresenter<ListContainerView>
         this.dataLoader = dataLoader;
     }
 
-    public void chooseArticle(Article article) {
+    public void selectedArticle(Article article) {
         if (getView() != null) {
             getView().showDetailArticle(article);
         }
@@ -37,7 +32,7 @@ public class BaseListContainerPresenter extends BasePresenter<ListContainerView>
         getContent();
     }
 
-    public void getContent()
+    private void getContent()
     {
         if (list == null && !isProgress) {
             loadData();
@@ -79,7 +74,6 @@ public class BaseListContainerPresenter extends BasePresenter<ListContainerView>
 
     private void loadData() {
         setProgressState();
-        Log.e("my test", " load data from data manager type = " + type + "    name presenter = ");
         dataLoader.getArticles(section, new DataLoader.OnDataListener() {
             @Override
             public void onSuccess(List<Article> result) {
@@ -99,7 +93,7 @@ public class BaseListContainerPresenter extends BasePresenter<ListContainerView>
         });
     }
 
-    public void resetData() {
+    protected void resetData() {
         isProgress = false;
         list = null;
         error = null;
@@ -112,11 +106,13 @@ public class BaseListContainerPresenter extends BasePresenter<ListContainerView>
 
     public void onFragmentVisibleUser(String newSection) {
         if (section != null && !section.equals(newSection)) {
-            Log.e("my test", " resetData " + getView());
             resetData();
         }
-        Log.e("my test", " show content in fragment visibility ");
         showContent(newSection);
     }
 
+    @Override
+    public void beforeRemove() {
+
+    }
 }

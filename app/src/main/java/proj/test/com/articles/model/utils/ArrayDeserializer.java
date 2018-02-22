@@ -6,21 +6,11 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static android.R.attr.data;
-import static android.R.id.list;
-
-/**
- * Created by Kolot Liza on 2/8/18.
- */
-
-public class ArrayDeserializer implements JsonDeserializer<List<String>>
-    {
+public class ArrayDeserializer implements JsonDeserializer<List<String>> {
         @Override
         public List<String> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
         {
@@ -36,7 +26,6 @@ public class ArrayDeserializer implements JsonDeserializer<List<String>>
                 String element = json.getAsString();
                 list.add(element);
             }
-
             return list;
         }
     }

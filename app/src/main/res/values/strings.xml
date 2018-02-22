@@ -5,7 +5,7 @@
     <string name="tab_name_emails">Emails</string>
     <string name="tab_name_views">Views</string>
     <string name="tab_name_favorites">Favorites</string>
-    <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_detail">Article</string>
 
 
     <string name="permission_storage_success">Rights received</string>
